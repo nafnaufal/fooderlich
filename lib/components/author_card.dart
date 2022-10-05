@@ -19,7 +19,6 @@ class AuthorCard extends StatefulWidget {
 }
 
 class _AuthorCardState extends State<AuthorCard> {
-  
   @override
   Widget build(BuildContext context) {
     Favorite? favorite = Favorite.of(context);
@@ -46,7 +45,9 @@ class _AuthorCardState extends State<AuthorCard> {
             ),
           ]),
           IconButton(
-            icon: Icon(favorite!.isFavorite.isFavorite ? Icons.favorite : Icons.favorite_border),
+            icon: Icon(favorite!.isFavorite.isFavorite
+                ? Icons.favorite
+                : Icons.favorite_border),
             iconSize: 30,
             color: Colors.red[400],
             onPressed: () {
