@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fooderlich/models/models.dart';
 import 'components/components.dart';
 import 'models/explore_recipe.dart';
 import 'screens/explore_screen.dart';
 import 'screens/recipes_screen.dart';
+import 'screens/grocery_screen.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,23 +18,9 @@ class _HomeState extends State<Home> {
   static List<Widget> pages = <Widget>[
     ExploreScreen(),
     RecipesScreen(),
-    Card3(
-        recipe: ExploreRecipe(
-            title: 'Vegan Trends',
-            tags: [
-              'Healthy',
-              'Vegan',
-              'Carrots',
-              'Greens',
-              'Wheat',
-              'Pescetarian',
-              'Mint',
-              'Lemongrass',
-              'Salad',
-              'Water'
-            ],
-            backgroundImage: 'assets/magazine_pics/mag3.png')),
+    const GroceryScreen()
   ];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -40,23 +29,33 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            title: Text('Fooderlich',
-                style: Theme.of(context).textTheme.headline6)),
-        body: pages[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor:
-                Theme.of(context).textSelectionTheme.selectionColor,
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            items: <BottomNavigationBarItem>[
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.explore), label: 'Explore'),
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.book), label: 'Recipes'),
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.list), label: 'To Buy'),
-            ]));
+    return Consumer<TabManager>(
+      builder: (context, tabManager, child) {
+        return Scaffold(
+            appBar: AppBar(
+              title: Text('Fooderlich',
+                  style: Theme.of(context).textTheme.headline6),
+            ),
+            // 2
+            body: pages[tabManager.selectedTab],
+            bottomNavigationBar: BottomNavigationBar(
+                selectedItemColor:
+                    Theme.of(context).textSelectionTheme.selectionColor,
+                // 3
+                currentIndex: tabManager.selectedTab,
+                onTap: (index) {
+                  // 4
+                  tabManager.gotoTab(index);
+                },
+                items: <BottomNavigationBarItem>[
+                  const BottomNavigationBarItem(
+                      icon: Icon(Icons.explore), label: 'Explore'),
+                  const BottomNavigationBarItem(
+                      icon: Icon(Icons.book), label: 'Recipes'),
+                  const BottomNavigationBarItem(
+                      icon: Icon(Icons.list), label: 'To Buy'),
+                ]));
+      },
+    );
   }
 }
