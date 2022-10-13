@@ -17,16 +17,13 @@ class Fooderlich extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = FooderlichTheme.dark();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Fooderlich',
       theme: theme,
       home: MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (context) => TabManager(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => GroceryManager(),
-          ),
+          ChangeNotifierProvider(create: (context) => TabManager()),
+          ChangeNotifierProvider(create: (context) => GroceryManager()),
         ],
         child: const Home(),
       ),
